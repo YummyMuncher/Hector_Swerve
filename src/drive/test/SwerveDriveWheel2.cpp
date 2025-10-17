@@ -4,7 +4,7 @@
 #define ANGLE_MARGIN_OF_ERROR .25
 #define IDLE_ANGLE_MARGIN_OF_ERROR 8
 // max velocity of motors, in RPM ticks
-#define MAX_MOTOR_SPEED_TICKS 3
+#define MAX_MOTOR_SPEED_TICKS
 
 SwerveDriveWheel2::SwerveDriveWheel2(pros::Motor *motorTop, pros::Motor *motorBot, float *rotateEncoder, lemlib::PID &pid,
                                    float offset)
@@ -103,33 +103,23 @@ double SwerveDriveWheel2::calculatePID(double target, double current, bool idle)
     return rotation;
 }
 
-void SwerveDriveWheel2::move(double speed, double target_angle, double maxVel)
-{
-    //aiming to simply control one drive train conventionally
-    // target_r = angle;
-
+void SwerveDriveWheel2::move(double speed, double target_angle, double maxVel) {
     float curr_angle = getAngle();
 
-    //find shortest path to rotate
-    float CCWdist = calcAngleDiff(curr_angle+360, target_angle+540);
-    float CWdist = calcAngleDiff(curr_angle+360, target_angle+360);
+    if (abs(curr_angle - target_angle) > 90) {
+        flipped = !flipped;
+    }
 
-    // float CCWdist = calcAngleDiff(angleWrap(curr_angle), angleWrap(target_angle+180));
-    // float CWdist = calcAngleDiff(angleWrap(curr_angle), angleWrap(target_angle));
-    
-    float dist;
-    
-    if(abs(CCWdist) < abs(CWdist)){
-        //TODO: CHECK DIRECTION
-        dist = CCWdist;
-    } else {
-        dist = CWdist;
+    if (flipped) {
+        if (target_angle >= 0) {
+            target_angle -= 180;
+        } else {
+            target_angle += 180;
+        }
     }
 
     float rotation = calculatePID(curr_angle, target_angle, false);
-    pros::lcd::print(0, "%f, %f", CCWdist, CWdist);
 
-    // The goal
-    motorTop->move_velocity(rotation - speed); //- speed
-    motorBot->move_velocity(rotation + speed); //  + speed
+    motorTop->move_velocity(rotation - speed);
+    motorBot->move_velocity(rotation + speed);
 }

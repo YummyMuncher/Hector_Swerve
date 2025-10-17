@@ -31,9 +31,11 @@ void driveControl() {
   while (true) {
     // Gets input from controller joysticks
     //translates to forward, strafe, and rotational movement
-    float fwd = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y)/127.0f*179.0f;
-    float str = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X)/127.0f*179.0f;
-    float rcw = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X)/127.0f*179.0f;
+    float fwd = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+    float str = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X);
+    float rcw = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+
+    // TODO: apply deadband and s curve to controller inputs
 
     // double robotHeading = -angleWrap(otos_data[2]+180)* M_PI/180;
 

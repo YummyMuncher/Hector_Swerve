@@ -15,10 +15,10 @@ using namespace std;
 
 class SwerveDriveWheel2 {
 private:
-    
     double calculatePID(double target, double current, bool idle);
     double zeroOffset = 0.0;
     double gearratio = 24.0 / 46.0;
+    bool flipped = false;
 
 public:
     pros::Motor* motorTop;
@@ -42,6 +42,10 @@ public:
     float getMagnetAngle();
     /** Zeroes the wheel by updating the offset, and returns the new offset */
     void zero(float offset = -1);
+
+    // speed - wheel speed in [-127, 127]
+    // angle - wheel angle increasing clockwise from forward in [-180,180]
+    // power - scalar multiplied
     void move(double speed, double angle, double power);
 };
 

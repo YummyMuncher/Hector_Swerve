@@ -24,11 +24,10 @@ public:
 
     SwerveDrive2();
 
-    void move2(double x, double y, double angle, double power);
-
-    // anglewrapped [-180, 180], positive is clockwise, zero is straight ahead
-    // +x to the right, +y is downfield, power is scalar multiplier
-    void move(double x, double y, double angle, double power);
+    // x, y - translational speed of robot in [-127, 127], +x is to the right, +y is forward
+    // rotate - rotational speed of robot in degrees per second, pos is clockwise
+    // power - scalar multiplier
+    void move(double x, double y, double rotate, double power);
     void reset_position();
 };
 
