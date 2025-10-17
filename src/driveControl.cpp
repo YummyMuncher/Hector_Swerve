@@ -40,13 +40,12 @@ void driveControl() {
     // double robotHeading = -angleWrap(otos_data[2]+180)* M_PI/180;
 
     if (field_centric) {
-      // Field centric
       double temp = fwd * cos(robotHeading) + str * sin(robotHeading);
       str = -fwd * sin(robotHeading) + str * cos(robotHeading);
       fwd = temp;
     }
 
-    sdrive.move(fwd, str, rcw,  1);
+    sdrive.move(str, fwd, rcw,  1);
     // sdrive.pidAdjust();
 
     pros::delay(10);
