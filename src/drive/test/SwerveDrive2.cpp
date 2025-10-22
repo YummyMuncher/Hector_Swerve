@@ -84,7 +84,7 @@ void SwerveDrive2::move(double x, double y, double rotate, double power) {
     } else if (y == 0) {
         angle = x >= 0 ? 90 : -90;
     } else {
-        angle = radToDeg(atan(y/x));
+        angle = radToDeg(atan(x/y));
     }
     
     printf("%f\t%f\t%f\n", angle, x, y);
