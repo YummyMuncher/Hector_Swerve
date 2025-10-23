@@ -41,30 +41,21 @@ void SwerveDrive2::move(double x, double y, double rotate, double power) {
 
   // degrees clockwise from forward in range [-180, 180]
   double angle;
+  if (x == 0) {
+      angle = y >= 0 ? 0 : 180;
+  } else if (y == 0) {
+      angle = x >= 0 ? 90 : -90;
+  } else {
+      angle = radToDeg(atan(x/y));
+      if (y < 0) {
+        angle = x < 0 ? -180 + angle : 180 + angle;
+      }
+  }
+  
+  printf("%f\t%f\t%f\n", angle, x, y);
+  pros::lcd::print(1, "angle : %f, %f", angle, rightFront.getAngle());
 
-  // if (abs(x) >.1 || abs(y) > .1) {
-  //     angle = radToDeg(atan(y/x));
-  // } else {
-  //     angle = 0;
-  // }
-
-    if (x == 0) {
-        angle = y >= 0 ? 0 : 180;
-    } else if (y == 0) {
-        angle = x >= 0 ? 90 : -90;
-    } else {
-        angle = radToDeg(atan(x/y));
-    }
-    
-    printf("%f\t%f\t%f\n", angle, x, y);
-    pros::lcd::print(1, "angle : %f, %f", angle, rightFront.getAngle());
-
-  // const double factor = 1.0;
-  // rightFront.move(x * factor, -y * factor, power);
-  // leftFront.move(x * factor, -y * factor, power);
-  // leftBack.move(x * factor, -y * factor, power);
-  // rightBack.move(x * factor, -y * factor, power);
-
+  speed = 0;
   rightFront.move(speed, angle, power);
   leftFront.move(speed, angle, power);
   leftBack.move(speed, angle, power);

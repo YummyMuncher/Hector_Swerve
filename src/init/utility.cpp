@@ -35,7 +35,11 @@ double radToDeg(double radians) {
 
 // This function normalizes the angle so it returns a value between -180° and 180° instead of 0° to 360°.
 double angleWrap(double degrees) {
-    return lemlib::sanitizeAngle(degrees, false);
+    degrees = lemlib::sanitizeAngle(degrees, false);
+    if(degrees> 180){
+        degrees -= 360; 
+    }
+    return degrees;
 }
 
 
