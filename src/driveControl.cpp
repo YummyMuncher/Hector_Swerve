@@ -46,7 +46,6 @@ void driveControl() {
     }
 
     sdrive.move(str, fwd, rcw,  1);
-    // sdrive.pidAdjust();
 
     pros::delay(10);
   }
