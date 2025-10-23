@@ -17,15 +17,12 @@ SwerveDriveWheel2::SwerveDriveWheel2(pros::Motor *motorTop,
   current_r = getMagnetAngle();
 
   zero(offset);
-
   // zeros motor positions
-  int stat1 = motorTop->tare_position();
-  int stat2 = motorBot->tare_position();
+  motorTop->tare_position();
+  motorBot->tare_position();
 
-  motorTop->set_zero_position(0);
-  motorBot->set_zero_position(0);
-  // status of motors, example error
-  // pros::lcd::print(7, "%i : %i", stat1, stat2);
+  // motorTop->set_zero_position(0);
+  // motorBot->set_zero_position(0);
 }
 
 float SwerveDriveWheel2::getMagnetAngle() {
@@ -47,7 +44,7 @@ float SwerveDriveWheel2::getAngle() {
 
   // get the average of the two angles
   // (this is where the swerve wheel is facing)
-  double avgAngle = (angleTop + angleBot) / 2.0f;
+  double avgAngle = (angleTop + angleBot) / 4.0f; //dividing by four for unknown reasons
   return angleWrap(avgAngle);
 }
 
@@ -93,17 +90,17 @@ double SwerveDriveWheel2::calculatePID(double target, double current,
 void SwerveDriveWheel2::move(double speed, double target_angle, double maxVel) {
   float curr_angle = getAngle();
 
-  if (abs(curr_angle - target_angle) > 90) {
-    flipped = !flipped;
-  }
+  // if (abs(curr_angle - target_angle) > 90) {
+  //   flipped = !flipped;
+  // }
 
-  if (flipped) {
-    if (target_angle >= 0) {
-      target_angle -= 180;
-    } else {
-      target_angle += 180;
-    }
-  }
+  // if (flipped) {
+  //   if (target_angle >= 0) {
+  //     target_angle -= 180;
+  //   } else {
+  //     target_angle += 180;
+  //   }
+  // }
 
   float rotation = calculatePID(curr_angle, target_angle, false);
 

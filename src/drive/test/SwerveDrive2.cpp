@@ -14,13 +14,13 @@ const double rotKP = 2;
 const double rotKI = 0;
 const double rotKD = 7;
 
-//cool little matrix instead of variables, DONT change the formatting
-lemlib::PID rightFrontPID   (rotKP + 0, rotKI + 0, rotKD + 0);
-lemlib::PID leftFrontPID    (rotKP + 0, rotKI + 0, rotKD + 0);
-lemlib::PID leftBackPID     (rotKP + 0, rotKI + 0, rotKD + 0);
-lemlib::PID rightBackPID    (rotKP + 0, rotKI + 0, rotKD + 0);
+// cool little matrix instead of variables
+lemlib::PID rightFrontPID(rotKP + 0, rotKI + 0, rotKD + 0);
+lemlib::PID leftFrontPID(rotKP + 0, rotKI + 0, rotKD + 0);
+lemlib::PID leftBackPID(rotKP + 0, rotKI + 0, rotKD + 0);
+lemlib::PID rightBackPID(rotKP + 0, rotKI + 0, rotKD + 0);
 
-//front wheel offset and back wheel offset
+// front wheel offset and back wheel offset
 float offset = 0;
 float offset2 = 0;
 
@@ -39,23 +39,28 @@ void SwerveDrive2::move(double x, double y, double rotate, double power) {
 
   double speed = sqrt(pow(x, 2) + pow(y, 2));
 
-  // degrees clockwise from forward in range [-180, 180]
+  // degrees clockwise with 0 being forward in range [0, 360)
   double angle;
   if (x == 0) {
-      angle = y >= 0 ? 0 : 180;
+    angle = y >= 0 ? 0 : 180;
   } else if (y == 0) {
-      angle = x >= 0 ? 90 : -90;
-  } else {
-      angle = radToDeg(atan(x/y));
-      if (y < 0) {
-        angle = x < 0 ? -180 + angle : 180 + angle;
-      }
-  }
-  
-  printf("%f\t%f\t%f\n", angle, x, y);
-  pros::lcd::print(1, "angle : %f, %f", angle, rightFront.getAngle());
+    angle = x >= 0 ? 90 : 270;
 
-  speed = 0;
+  } else { //if the axes arent zeroed
+    angle = radToDeg(atan(x / y));
+    if (y < 0) {
+      angle += 180;
+    } else if (x < 0) {
+      angle += 360;
+    }
+  }
+
+  pros::lcd::print(1, "target : %f", angle);
+  pros::lcd::print(2, "front : %f, %f", leftFront.getAngle(),
+                   rightFront.getAngle());
+  pros::lcd::print(3, "back : %f, %f", leftBack.getAngle(),
+                   rightBack.getAngle());
+
   rightFront.move(speed, angle, power);
   leftFront.move(speed, angle, power);
   leftBack.move(speed, angle, power);

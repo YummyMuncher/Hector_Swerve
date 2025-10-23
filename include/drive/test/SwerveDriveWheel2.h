@@ -43,9 +43,11 @@ public:
     /** Zeroes the wheel by updating the offset, and returns the new offset */
     void zero(float offset = -1);
 
-    // speed - wheel speed in [-127, 127]
-    // angle - wheel angle increasing clockwise from forward in [-180,180]
-    // power - scalar multiplied
+    /**
+     * @param speed wheel speed in [-127,127]
+     * @param angle wheel angle in degrees increasing clockwise with 0 being forward in range [0, 360)
+     * @param power scalar multiplier
+     */
     void move(double speed, double angle, double power);
 };
 

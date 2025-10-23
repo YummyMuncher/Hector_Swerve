@@ -57,7 +57,13 @@ double degToRad(double degrees);
  */
 double radToDeg(double radians);
 
-
+/**
+ * @brief Normalizes the angle
+ * 
+ * @param degrees angle in degrees
+ * 
+ * @return degrees in range [0, 360)
+ */
 double angleWrap(double degrees);
 
 /**
