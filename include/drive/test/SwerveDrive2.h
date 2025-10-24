@@ -16,6 +16,8 @@ using namespace std;
 
 class SwerveDrive2
 {
+private:
+    double prevAngle = 0;
 public:
     SwerveDriveWheel2 rightFront;
     SwerveDriveWheel2 leftFront;

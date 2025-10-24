@@ -32,8 +32,8 @@ void driveControl() {
     // Gets input from controller joysticks
     //translates to forward, strafe, and rotational movement
     float fwd = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-    float str = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X);
-    float rcw = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+    float str = -controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X);
+    float rcw = -controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 
     // TODO: apply deadband and s curve to controller inputs
 
@@ -45,7 +45,7 @@ void driveControl() {
       fwd = temp;
     }
 
-    sdrive.move(str, fwd, rcw,  1);
+    sdrive.move(str, fwd, rcw, 1);
 
     pros::delay(10);
   }

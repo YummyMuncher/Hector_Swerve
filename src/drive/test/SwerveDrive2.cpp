@@ -23,16 +23,17 @@ lemlib::PID rightBackPID(rotKP + 0, rotKI + 0, rotKD + 0);
 // front wheel offset and back wheel offset
 float offset = 0;
 float offset2 = 0;
+double prevAngle = 0;
 
 SwerveDrive2::SwerveDrive2()
     : rightFront(&rightFrontBottomMotor, &rightFrontTopMotor,
-                 &serial_data.encoder_four, rightFrontPID, offset),
+                 &serial_data.encoder_four, rightFrontPID, &prevAngle, offset),
       leftFront(&leftFrontBottomMotor, &leftFrontTopMotor,
-                &serial_data.encoder_one, leftFrontPID, offset),
+                &serial_data.encoder_one, leftFrontPID, &prevAngle, offset),
       leftBack(&leftBackBottomMotor, &leftBackTopMotor,
-               &serial_data.encoder_three, leftBackPID, offset2),
+               &serial_data.encoder_three, leftBackPID, &prevAngle, offset2),
       rightBack(&rightBackBottomMotor, &rightBackTopMotor,
-                &serial_data.encoder_two, rightBackPID, offset2) {}
+                &serial_data.encoder_two, rightBackPID, &prevAngle, offset2) {}
 
 void SwerveDrive2::move(double x, double y, double rotate, double power) {
   double angleModifer = 0;
@@ -55,16 +56,17 @@ void SwerveDrive2::move(double x, double y, double rotate, double power) {
     }
   }
 
+  
   pros::lcd::print(1, "target : %f", angle);
-  pros::lcd::print(2, "front : %f, %f", leftFront.getAngle(),
-                   rightFront.getAngle());
-  pros::lcd::print(3, "back : %f, %f", leftBack.getAngle(),
-                   rightBack.getAngle());
+  pros::lcd::print(2, "front : %f, %f", leftFront.getAngle(), rightFront.getAngle());
+  pros::lcd::print(3, "back : %f, %f", leftBack.getAngle(), rightBack.getAngle());
 
-  rightFront.move(speed, angle, power);
-  leftFront.move(speed, angle, power);
-  leftBack.move(speed, angle, power);
-  rightBack.move(speed, angle, power);
+  double sum = 0;
+  rightFront.move(speed - rotate, angle, power);
+  leftFront.move(speed + rotate, angle, power);
+  rightBack.move(speed - rotate, angle, power);
+  leftBack.move(speed + rotate, angle, power);
+  prevAngle = angle;
 }
 
 void SwerveDrive2::reset_position() {

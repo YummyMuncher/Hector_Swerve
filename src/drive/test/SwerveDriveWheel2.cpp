@@ -9,13 +9,13 @@
 SwerveDriveWheel2::SwerveDriveWheel2(pros::Motor *motorTop,
                                      pros::Motor *motorBot,
                                      float *rotateEncoder, lemlib::PID &pid,
-                                     float offset)
-    : motorTop(motorTop), motorBot(motorBot),
+                                     double *prevAngle, float offset)
+    : motorTop(motorTop), motorBot(motorBot), prevAngle(prevAngle),
 
       // float with angle in it from serial and rotation pid
       rotateEncoder(rotateEncoder), PIDr(pid) {
   current_r = getMagnetAngle();
-
+  
   zero(offset);
   // zeros motor positions
   motorTop->tare_position();
@@ -90,17 +90,18 @@ double SwerveDriveWheel2::calculatePID(double target, double current,
 void SwerveDriveWheel2::move(double speed, double target_angle, double maxVel) {
   float curr_angle = getAngle();
 
-  // if (abs(curr_angle - target_angle) > 90) {
-  //   flipped = !flipped;
-  // }
+  if (abs(*prevAngle - target_angle) > 90) {
+    flipped = !flipped;
+  }
 
-  // if (flipped) {
-  //   if (target_angle >= 0) {
-  //     target_angle -= 180;
-  //   } else {
-  //     target_angle += 180;
-  //   }
-  // }
+  if (flipped) {
+    speed = -1 * abs(speed);
+    if (target_angle >= 0) {
+      target_angle -= 180;
+    } else {
+      target_angle += 180;
+    }
+  }
 
   float rotation = calculatePID(curr_angle, target_angle, false);
 
