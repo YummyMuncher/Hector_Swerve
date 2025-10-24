@@ -14,7 +14,7 @@ void driveControl() {
   rightBackTopMotor.set_brake_mode(MOTOR_BRAKE_COAST);
   rightBackBottomMotor.set_brake_mode(MOTOR_BRAKE_COAST);
 
-  SwerveDrive2 sdrive;
+  SwerveDrive sdrive;
   lemlib::PID headingPID(100, 0, 80);
 
   double robotHeading = 0;
@@ -28,16 +28,14 @@ void driveControl() {
 
   bool field_centric = false;
 
+  pros::delay(1000); // wait for initialization
+
   while (true) {
-    // Gets input from controller joysticks
-    //translates to forward, strafe, and rotational movement
     float fwd = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
     float str = -controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X);
     float rcw = -controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 
-    // TODO: apply deadband and s curve to controller inputs
-
-    // double robotHeading = -angleWrap(otos_data[2]+180)* M_PI/180;
+    // TODO: apply sigmoid curve to input
 
     if (field_centric) {
       double temp = fwd * cos(robotHeading) + str * sin(robotHeading);
