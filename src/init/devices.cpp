@@ -1,6 +1,4 @@
 #include "init/devices.h"
-#include "pros/colors.hpp"
-#include "pros/optical.hpp"
 
 // Controllers
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
@@ -29,11 +27,8 @@ pros::Motor rightFrontBottomMotor(12, pros::v5::MotorGears::blue, pros::v5::Moto
 pros::Motor rightBackTopMotor(1, pros::v5::MotorGears::blue, pros::v5::MotorEncoderUnits::degrees);
 pros::Motor rightBackBottomMotor(2, pros::v5::MotorGears::blue, pros::v5::MotorEncoderUnits::degrees);
 
-//max485 is port 3 
-pros::ADIAnalogIn max(3);
-
-
-
+// max485 is port 3 
+pros::adi::AnalogIn max(3);
 
 // IMU
 // pros::Imu imu(15);

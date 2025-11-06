@@ -32,18 +32,18 @@ void driveControl() {
 
   while (true) {
     float fwd = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-    float str = -controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X);
-    float rcw = -controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+    float str = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X);
+    float rcw = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 
-    // TODO: apply sigmoid curve to input
+    // TODO apply sigmoid curve to input
 
-    if (field_centric) {
-      double temp = fwd * cos(robotHeading) + str * sin(robotHeading);
-      str = -fwd * sin(robotHeading) + str * cos(robotHeading);
-      fwd = temp;
-    }
+    // if (field_centric) {
+    //   double temp = fwd * cos(robotHeading) + str * sin(robotHeading);
+    //   str = -fwd * sin(robotHeading) + str * cos(robotHeading);
+    //   fwd = temp;
+    // }
 
-    sdrive.move(str, fwd, rcw, 1);
+    sdrive.move(str, fwd, 0, 1); // TODO put rotate back in
 
     pros::delay(10);
   }

@@ -5,11 +5,7 @@
 #define TRACK_WIDTH 11.6f
 #define MAX_SPEED_CONSTRAINT 1
 
-// radius from center to each wheel
 const double RADIUS = sqrt(pow(TRACK_LENGTH, 2) + pow(TRACK_WIDTH, 2));
-
-// used to be const
-
 const double rotKP = 2;
 const double rotKI = 0;
 const double rotKD = 7;
@@ -25,6 +21,8 @@ float offset = 0;
 float offset2 = 0;
 double prevAngle = 0;
 
+// front - hub
+// wheels zero - marking pointing back
 SwerveDrive::SwerveDrive()
     : rightFront(&rightFrontBottomMotor, &rightFrontTopMotor,
                  &serial_data.encoder_four, rightFrontPID, &prevAngle, offset),
@@ -43,7 +41,7 @@ void SwerveDrive::move(double x, double y, double rotate, double power) {
     angle = y >= 0 ? 0 : 180;
   } else if (y == 0) {
     angle = x >= 0 ? 90 : 270;
-  } else { //if the axes arent zeroed
+  } else {
     angle = radToDeg(atan(x / y));
     if (y < 0) {
       angle += 180;
