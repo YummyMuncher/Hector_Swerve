@@ -43,7 +43,7 @@ void driveControl() {
     //   fwd = temp;
     // }
 
-    sdrive.move(str, fwd, 0, 1); // TODO put rotate back in
+    sdrive.move(str, fwd, rcw, 1);
 
     pros::delay(10);
   }

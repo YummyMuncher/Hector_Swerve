@@ -33,32 +33,28 @@ SwerveDrive::SwerveDrive()
       rightBack(&rightBackBottomMotor, &rightBackTopMotor,
                 &serial_data.encoder_two, rightBackPID, &prevAngle, offset2) {}
 
-void SwerveDrive::move(double x, double y, double rotate, double power) {
-  double speed = sqrt(pow(x, 2) + pow(y, 2));
+void SwerveDrive::move(double x, double y, double power, double rotate) {
+  double speed = sqrt( pow(x, 2) + pow(y, 2) );
 
-  double angle;
+  double strafe_angle;
   if (x == 0) {
-    angle = y >= 0 ? 0 : 180;
+    strafe_angle = y >= 0 ? 0 : 180;
   } else if (y == 0) {
-    angle = x >= 0 ? 90 : 270;
+    strafe_angle = x >= 0 ? 90 : 270;
   } else {
-    angle = radToDeg(atan(x / y));
-    if (y < 0) {
-      angle += 180;
-    }
+    strafe_angle = radToDeg(atan(x / y));
   }
-  angle = angleWrap(angle);
+  strafe_angle = angleWrap(strafe_angle);
   
-  pros::lcd::print(1, "target : %f", angle);
-  pros::lcd::print(2, "front : %f, %f", leftFront.getAngle(), rightFront.getAngle());
-  pros::lcd::print(3, "back : %f, %f", leftBack.getAngle(), rightBack.getAngle());
+  // pros::lcd::print(1, "target : %f", strafe_angle);
+  // pros::lcd::print(2, "front : %f, %f", leftFront.getAngle(), rightFront.getAngle());
+  // pros::lcd::print(3, "back : %f, %f", leftBack.getAngle(), rightBack.getAngle());
 
-  double sum = 0;
-  rightFront.move(speed - rotate, angle, power);
-  leftFront.move(speed + rotate, angle, power);
-  rightBack.move(speed - rotate, angle, power);
-  leftBack.move(speed + rotate, angle, power);
-  prevAngle = angle;
+  rightFront.move(speed, strafe_angle, power, rotate);
+  leftFront.move(speed, strafe_angle, power, rotate);
+  rightBack.move(speed, strafe_angle, power, rotate);
+  leftBack.move(speed, strafe_angle, power, rotate);
+  prevAngle = strafe_angle;
 }
 
 void SwerveDrive::reset_position() {

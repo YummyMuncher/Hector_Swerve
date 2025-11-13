@@ -87,11 +87,13 @@ double SwerveDriveWheel::calculatePID(double target, double current,
   return rotation;
 }
 
-void SwerveDriveWheel::move(double speed, double target_angle, double maxVel) {
+void SwerveDriveWheel::move(double speed, double target_angle, double rotate, double power) {
   float curr_angle = getAngle();
-
-  if (abs(*prevAngle - target_angle) > 90) {
-    flipped = !flipped;
+  pros::lcd::print(0, "%f, %f", *prevAngle, target_angle);
+  double angle_in_question = angleWrap(*prevAngle - target_angle);
+  pros::lcd::print(2, "%f", angle_in_question);
+  if (angle_in_question > 90) {
+    flipped = -flipped;
   }
 
   if (flipped) {
@@ -103,6 +105,13 @@ void SwerveDriveWheel::move(double speed, double target_angle, double maxVel) {
     }
   }
 
+  if(rotate > 2)
+  {
+    double circle_center = 100 - rotate;
+    //wheel to wheel distance is about 12.5 inches
+    double wheel_angle = atan((circle_center)/(12.5*2.54));
+    target_angle += wheel_angle;
+  }
   float rotation = calculatePID(curr_angle, target_angle, false);
 
   motorTop->move_velocity(rotation - speed);

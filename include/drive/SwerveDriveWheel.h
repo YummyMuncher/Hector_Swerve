@@ -50,7 +50,7 @@ public:
      * @param angle wheel angle in degrees increasing clockwise with 0 being forward in range [0, 360)
      * @param power scalar multiplier
      */
-    void move(double speed, double angle, double power);
+    void move(double speed, double angle, double rotate, double power);
 };
 
 #endif
