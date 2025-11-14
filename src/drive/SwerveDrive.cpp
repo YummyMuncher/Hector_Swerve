@@ -49,8 +49,9 @@ void SwerveDrive::move(double x, double y, double rotate, double power) {
   angle = angleWrap(angle);
   
   pros::lcd::print(1, "target : %f", angle);
-  pros::lcd::print(2, "front : %f, %f", leftFront.getAngle(), rightFront.getAngle());
-  pros::lcd::print(3, "back : %f, %f", leftBack.getAngle(), rightBack.getAngle());
+  pros::lcd::print(1, "%f\t%f", x, y); // https://www.vexforum.com/t/i-am-wondering-why-the-vex-controller-joy-sticks-arent-nice/82102/26
+  // pros::lcd::print(2, "front : %f, %f", leftFront.getAngle(), rightFront.getAngle());
+  // pros::lcd::print(3, "back : %f, %f", leftBack.getAngle(), rightBack.getAngle());
 
   double sum = 0;
   rightFront.move(speed - rotate, angle, power);
