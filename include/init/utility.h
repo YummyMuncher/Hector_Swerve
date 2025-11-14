@@ -62,7 +62,7 @@ double radToDeg(double radians);
  * 
  * @param degrees angle in degrees
  * 
- * @return degrees in range [0, 360)
+ * @return degrees in range (-180, 180]
  */
 double angleWrap(double degrees);
 

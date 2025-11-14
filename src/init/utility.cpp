@@ -33,7 +33,11 @@ double radToDeg(double radians) {
 }
 
 double angleWrap(double degrees) {
-    return lemlib::sanitizeAngle(degrees, false);
+    double sanitized = lemlib::sanitizeAngle(degrees, false);
+    if (sanitized > 180) {
+        sanitized -= 360;
+    }
+    return sanitized;
 }
 
 

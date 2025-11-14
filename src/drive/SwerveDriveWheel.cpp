@@ -1,4 +1,5 @@
 #include "drive/SwerveDriveWheel.h"
+#include "init/utility.h"
 
 // in deg
 #define ANGLE_MARGIN_OF_ERROR .25
@@ -8,9 +9,8 @@
 
 SwerveDriveWheel::SwerveDriveWheel(pros::Motor *motorTop,
                                      pros::Motor *motorBot,
-                                     float *rotateEncoder, lemlib::PID &pid,
-                                     double *prevAngle, float offset)
-    : motorTop(motorTop), motorBot(motorBot), prevAngle(prevAngle),
+                                     float *rotateEncoder, lemlib::PID &pid, float offset)
+    : motorTop(motorTop), motorBot(motorBot),
 
       // float with angle in it from serial and rotation pid
       rotateEncoder(rotateEncoder), PIDr(pid) {
@@ -38,12 +38,9 @@ float SwerveDriveWheel::getMagnetAngle() {
 }
 
 float SwerveDriveWheel::getAngle() {
-  // get the current angle of the wheel in degrees
   double angleTop = motorTop->get_position();
   double angleBot = motorBot->get_position();
-
-  // get the average of the two angles
-  // (this is where the swerve wheel is facing)
+  // the average of the angles is where the wheel is facing
   double avgAngle = (angleTop + angleBot) / 4.0f; //dividing by four for unknown reasons
   return angleWrap(avgAngle);
 }
@@ -88,23 +85,23 @@ double SwerveDriveWheel::calculatePID(double target, double current,
 }
 
 void SwerveDriveWheel::move(double speed, double target_angle, double maxVel) {
+  target_angle *= -1;
   float curr_angle = getAngle();
 
-  if (abs(*prevAngle - target_angle) > 90) {
-    flipped = !flipped;
+  if (flipped) {
+    speed *= -1;
+    target_angle = angleWrap(target_angle + 180);
   }
 
-  if (flipped) {
-    speed = -1 * abs(speed);
-    if (target_angle >= 0) {
-      target_angle -= 180;
-    } else {
-      target_angle += 180;
-    }
+  double angle_diff = angleWrap(target_angle - curr_angle);
+  if (angle_diff > 90 || angle_diff < -90) {
+    flipped = !flipped;
+    speed *= -1;
+    target_angle = angleWrap(target_angle + 180);
   }
 
   float rotation = calculatePID(curr_angle, target_angle, false);
 
-  motorTop->move_velocity(rotation - speed);
-  motorBot->move_velocity(rotation + speed);
+  motorTop->move_velocity(rotation + speed);
+  motorBot->move_velocity(rotation - speed);
 }

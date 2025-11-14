@@ -18,9 +18,7 @@ private:
     double calculatePID(double target, double current, bool idle);
     double zeroOffset = 0.0;
     double gearratio = 24.0 / 46.0;
-    bool flipped = false;
-    double *prevAngle;
-    
+    bool flipped = false;    
 
 public:
     pros::Motor* motorTop;
@@ -37,7 +35,7 @@ public:
     double current_r;
     double target_r;
 
-    SwerveDriveWheel(pros::Motor* motor1, pros::Motor* motor2, float* rotateEncoder, lemlib::PID &pid, double* prevAngle, float offset = 0);
+    SwerveDriveWheel(pros::Motor* motor1, pros::Motor* motor2, float* rotateEncoder, lemlib::PID &pid, float offset = 0);
 
     float getAngle();
     void printAngles();

@@ -19,19 +19,18 @@ lemlib::PID rightBackPID(rotKP + 0, rotKI + 0, rotKD + 0);
 // front wheel offset and back wheel offset
 float offset = 0;
 float offset2 = 0;
-double prevAngle = 0;
 
 // front - hub
-// wheels zero - marking pointing back
+// wheels zero - marking pointing forward
 SwerveDrive::SwerveDrive()
     : rightFront(&rightFrontBottomMotor, &rightFrontTopMotor,
-                 &serial_data.encoder_four, rightFrontPID, &prevAngle, offset),
+                 &serial_data.encoder_four, rightFrontPID, offset),
       leftFront(&leftFrontBottomMotor, &leftFrontTopMotor,
-                &serial_data.encoder_one, leftFrontPID, &prevAngle, offset),
+                &serial_data.encoder_one, leftFrontPID, offset),
       leftBack(&leftBackBottomMotor, &leftBackTopMotor,
-               &serial_data.encoder_three, leftBackPID, &prevAngle, offset2),
+               &serial_data.encoder_three, leftBackPID, offset2),
       rightBack(&rightBackBottomMotor, &rightBackTopMotor,
-                &serial_data.encoder_two, rightBackPID, &prevAngle, offset2) {}
+                &serial_data.encoder_two, rightBackPID, offset2) {}
 
 void SwerveDrive::move(double x, double y, double rotate, double power) {
   double speed = sqrt(pow(x, 2) + pow(y, 2));
