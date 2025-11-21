@@ -1,6 +1,5 @@
 #include "main.h"
 
-
 /**
  * A callback function for LLEMU's center button.
  *

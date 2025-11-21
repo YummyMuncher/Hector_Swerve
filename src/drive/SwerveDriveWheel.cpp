@@ -1,5 +1,4 @@
 #include "drive/SwerveDriveWheel.h"
-#include "init/utility.h"
 
 // in deg
 #define ANGLE_MARGIN_OF_ERROR .25

@@ -1,5 +1,4 @@
 #include "driveControl.h"
-#include "init/utility.h"
 
 /**
  * Takes input from controller joysticks
