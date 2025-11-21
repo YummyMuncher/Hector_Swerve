@@ -37,10 +37,10 @@ void SwerveDrive::move(double speed, double angle, double rotate) {
   // pros::lcd::print(2, "front : %f, %f", leftFront.getAngle(), rightFront.getAngle());
   // pros::lcd::print(3, "back : %f, %f", leftBack.getAngle(), rightBack.getAngle());
 
-  rightFront.move(speed - rotate, angle, 1);
-  leftFront.move(speed + rotate, angle, 1);
-  rightBack.move(speed - rotate, angle, 1);
-  leftBack.move(speed + rotate, angle, 1);
+  rightFront.move(speed - rotate, angle);
+  leftFront.move(speed + rotate, angle);
+  rightBack.move(speed - rotate, angle);
+  leftBack.move(speed + rotate, angle);
 }
 
 void SwerveDrive::reset_position() {

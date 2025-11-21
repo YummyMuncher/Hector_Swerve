@@ -68,7 +68,7 @@ void driveControl() {
     // pros::lcd::print(1, "raw x: %f, y: %f", raw_x, raw_y);
     // pros::lcd::print(2, "x: %f, y: %f", x, y);
     // pros::lcd::print(3, "spe: %f, ang: %f", speed, angle);
-    sdrive.move(speed, angle, 0); // TODO put rotate back in
+    sdrive.move(speed, angle, raw_rcw);
 
     pros::delay(10);
   }

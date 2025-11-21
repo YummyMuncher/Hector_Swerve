@@ -84,8 +84,9 @@ double SwerveDriveWheel::calculatePID(double target, double current,
   return rotation;
 }
 
-void SwerveDriveWheel::move(double speed, double target_angle, double maxVel) {
+void SwerveDriveWheel::move(double speed, double target_angle) {
   target_angle *= -1;
+  speed *= 400.0 / 128.0;
   float curr_angle = getAngle();
 
   if (flipped) {
@@ -102,6 +103,6 @@ void SwerveDriveWheel::move(double speed, double target_angle, double maxVel) {
 
   float rotation = calculatePID(curr_angle, target_angle, false);
 
-  motorTop->move_velocity(rotation + speed);
-  motorBot->move_velocity(rotation - speed);
+  motorTop->move_velocity((rotation + speed));
+  motorBot->move_velocity((rotation - speed));
 }

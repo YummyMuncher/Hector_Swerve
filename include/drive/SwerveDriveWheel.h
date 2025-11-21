@@ -44,11 +44,10 @@ public:
     void zero(float offset = -1);
 
     /**
-     * @param speed wheel speed in [-127,127]
-     * @param angle wheel angle in degrees increasing clockwise with 0 being forward in range [0, 360)
-     * @param power scalar multiplier
+     * @param speed wheel speed in range [-127,127]
+     * @param angle wheel angle in degrees where 0 is forward, increasing is clockwise, range is (-180, 180]
      */
-    void move(double speed, double angle, double power);
+    void move(double speed, double angle);
 };
 
 #endif
