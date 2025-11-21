@@ -13,7 +13,7 @@ pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
 // Left Front (PORTS ARE LIKE ALL BUSTED)
 pros::Motor leftFrontTopMotor(8, pros::v5::MotorGears::blue, pros::v5::MotorEncoderUnits::degrees);
-pros::Motor leftFrontBottomMotor(18, pros::v5::MotorGears::blue, pros::v5::MotorEncoderUnits::degrees);
+pros::Motor leftFrontBottomMotor(20, pros::v5::MotorGears::blue, pros::v5::MotorEncoderUnits::degrees);
 
 // Left Back
 pros::Motor leftBackTopMotor(16, pros::v5::MotorGears::blue, pros::v5::MotorEncoderUnits::degrees);

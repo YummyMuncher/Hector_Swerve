@@ -16,8 +16,6 @@ using namespace std;
 
 class SwerveDrive
 {
-private:
-    double prevAngle = 0;
 public:
     SwerveDriveWheel rightFront;
     SwerveDriveWheel leftFront;
@@ -27,12 +25,11 @@ public:
     SwerveDrive();
 
     /**
-     * @param x left/right speed of robot in range [-127, 127], positive is to the right
-     * @param y forward/backward speed of robot in range [-127, 127], positive is forward
+     * @param speed movement speed in range [-127,127]
+     * @param angle movement angle in degrees where 0 is forward, increasing is clockwise, range is (-180, 180]
      * @param rotate rotational speed of robot in degrees per second, positive is clockwise
-     * @param power scalar multiplier
      */
-    void move(double x, double y, double rotate, double power);
+    void move(double speed, double angle, double rotate);
     void reset_position();
 };
 

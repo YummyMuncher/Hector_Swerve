@@ -32,33 +32,15 @@ SwerveDrive::SwerveDrive()
       rightBack(&rightBackBottomMotor, &rightBackTopMotor,
                 &serial_data.encoder_two, rightBackPID, offset2) {}
 
-void SwerveDrive::move(double x, double y, double rotate, double power) {
-  double speed = sqrt(pow(x, 2) + pow(y, 2));
-
-  double angle;
-  if (x == 0) {
-    angle = y >= 0 ? 0 : 180;
-  } else if (y == 0) {
-    angle = x >= 0 ? 90 : 270;
-  } else {
-    angle = radToDeg(atan(x / y));
-    if (y < 0) {
-      angle += 180;
-    }
-  }
-  angle = angleWrap(angle);
-  
-  pros::lcd::print(1, "target : %f", angle);
-  pros::lcd::print(1, "%f\t%f", x, y); // https://www.vexforum.com/t/i-am-wondering-why-the-vex-controller-joy-sticks-arent-nice/82102/26
+void SwerveDrive::move(double speed, double angle, double rotate) {
+  // pros::lcd::print(1, "target : %f", angle);
   // pros::lcd::print(2, "front : %f, %f", leftFront.getAngle(), rightFront.getAngle());
   // pros::lcd::print(3, "back : %f, %f", leftBack.getAngle(), rightBack.getAngle());
 
-  double sum = 0;
-  rightFront.move(speed - rotate, angle, power);
-  leftFront.move(speed + rotate, angle, power);
-  rightBack.move(speed - rotate, angle, power);
-  leftBack.move(speed + rotate, angle, power);
-  prevAngle = angle;
+  rightFront.move(speed - rotate, angle, 1);
+  leftFront.move(speed + rotate, angle, 1);
+  rightBack.move(speed - rotate, angle, 1);
+  leftBack.move(speed + rotate, angle, 1);
 }
 
 void SwerveDrive::reset_position() {
